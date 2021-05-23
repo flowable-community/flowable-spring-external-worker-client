@@ -1,0 +1,9 @@
+
+#
+# Default settings, override with your own settings.
+#
+
+flowable.external.url = http://localhost:8080/external-job-api
+flowable.external.workerId = SpringBootFlowableWorker1
+flowable.external.username=admin
+flowable.external.password=test

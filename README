@@ -1,0 +1,56 @@
+Flowable External Worker Spring Boot Starter
+
+This spring boot starter will make life easier when creating External Task Workers for Flowable. This starter will do the pulling and handling of the status of the jobs for you.
+
+It is a Spring Boot starter with annotation-based approach to wrap integration with the Flowable Exernal Worker API:
+	https://documentation.flowable.com/latest/assets/core-swagger/externalworker.html
+
+It is assumed that you are already familiar with the concept of a Flowable External Worker Task.  If not, please refer to:
+	https://flowable.com/open-source/docs/bpmn/ch07b-BPMN-Constructs/#external-worker-task
+
+How to use : 
+ 
+ Build this component (no distribution form a maven repo yet) with simply
+ 	mvn install
+ 
+ Import the maven dependency in your own Spring Boot project:
+	<dependency>
+		<groupId>org.flowable.community.externalworker</groupId>
+		<artifactId>flowable-external-worker-spring-boot-starter</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</dependency>
+ 
+  In your application properties : 
+ 
+	- set the flowable-engine api url with the key flowable.external.url i.e. : flowable.external.url = http://localhost:8080/external-job-api
+	- set the worker ID with the key flowable.external.workerId
+ 	(have a look at 'src/main/resources/application.properties.EXAMPLE' as an example for a default Flowable configuration) 
+ 
+ To implement the worker : 
+
+- Create a simple @Component annotated spring bean with a worker method to handle an external task:
+
+		@FlowableWorker(topic = "topicToGetJobFrom")
+		public void execute(AcquiredJob job) {
+			// TODO: implement
+		}
+	
+	(have a look at 'src/test/java/org/flowable/community/external/worker/example/ExampleWorker')
+	
+	Parameters from the annotation: 
+	topic : (mandatory) topic to get the jobs from - configured 'topic' name in Flowable Design or Flowable Modeler 
+	lockDuration : the time the job will be locked by the worker. Format is ISO-8601 duration. i.e. 10 minutes will translate to PT10M. The default value is 10 minutes
+	maxTasks : the maximum number of tasks that will be acquired. Default value is 10
+	numberOfRetries : The number of retries if an optimistic lock exception occurs during acquiring. Default is 10
+	scopeType : Only acquire jobs with the given scope type.
+   
+- The method should take a AcquiredJob as parameter. This method should define the logic to handle the acquiredJob.
+  Methods to manipulate the jobs : 
+   complete
+   bpmnError
+   cmmnTerminate
+   fail
+   
+- The method is automatically called when a acquiredJob is available.
+
+- You can create a different worker method for each specific, in a separate bean or a single one, or in different worker applications, as you prefer in your architecture
