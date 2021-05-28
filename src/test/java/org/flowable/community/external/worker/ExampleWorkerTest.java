@@ -8,11 +8,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.flowable.community.external.worker.test.TestApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = TestApplication.class)
 public class ExampleWorkerTest {
 	
 	@Autowired

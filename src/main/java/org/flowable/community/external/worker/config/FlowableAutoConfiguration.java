@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableConfigurationProperties(FlowableProperties.class)
 @EnableScheduling
-@ComponentScan(basePackages = {"org.flowable.community.externalworker"})
+@ComponentScan(basePackages = {"org.flowable.community.external.worker"})
 public class FlowableAutoConfiguration {
 
 	@Autowired

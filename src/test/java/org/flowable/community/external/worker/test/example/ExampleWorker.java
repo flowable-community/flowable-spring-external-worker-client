@@ -1,4 +1,4 @@
-package org.flowable.community.external.worker.example;
+package org.flowable.community.external.worker.test.example;
 
 import java.util.ArrayList;
 import java.util.List;
